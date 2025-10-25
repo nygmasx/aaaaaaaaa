@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('role')->default('ROLE_USER');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->float('balance')->default(0.00);
+            $table->string('iban')->unique();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -13,6 +13,7 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type BreadcrumbItem } from '@/types';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -42,6 +43,16 @@ const user = page.props.auth.user;
                     title="Profile information"
                     description="Update your name and email address"
                 />
+
+                <Card>
+                    <CardHeader>
+                        <CardTitle>IBAN</CardTitle>
+                        <CardDescription>Envoyez votre IBAN afin de recevoir de l'argent</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        {{user.iban}}
+                    </CardContent>
+                </Card>
 
                 <Form
                     v-bind="ProfileController.update.form()"
