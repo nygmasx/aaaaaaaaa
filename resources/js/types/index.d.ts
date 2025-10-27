@@ -34,6 +34,23 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+    balance: number;
+    role: string;
+    is_active: boolean;
+}
+
+export interface TransferData {
+    name: string;
+    transfers: number;
+}
+
+export interface RecentTransfer {
+    id: number;
+    recipient: string;
+    amount: number;
+    currency: string;
+    date: string;
+    status: string;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;

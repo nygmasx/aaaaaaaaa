@@ -1,12 +1,23 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard, transfer } from '@/routes';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, type TransferData, type RecentTransfer } from '@/types';
 import { Head, usePage, Link } from '@inertiajs/vue3';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AreaChart } from '@/components/ui/chart-area';
 import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+
+interface Props {
+    transfersData?: TransferData[];
+    recentTransfers?: RecentTransfer[];
+    totalTransfers?: number;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    transfersData: () => [],
+    recentTransfers: () => [],
+    totalTransfers: 0,
+});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,37 +29,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 const page = usePage();
 
 const user = page.props.auth.user;
-
-const data = [
-    { name: "Jan", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-    { name: "Feb", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-    { name: "Mar", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-    { name: "Apr", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-    { name: "May", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-    { name: "Jun", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-    { name: "Jul", total: Math.floor(Math.random() * 2000) + 500, predicted: Math.floor(Math.random() * 2000) + 500 },
-]
-
-const transferData = [
-    { name: "Jan", transfers: 12 },
-    { name: "Feb", transfers: 8 },
-    { name: "Mar", transfers: 15 },
-    { name: "Apr", transfers: 22 },
-    { name: "May", transfers: 18 },
-    { name: "Jun", transfers: 25 },
-    { name: "Jul", transfers: 19 },
-    { name: "Aug", transfers: 31 },
-    { name: "Sep", transfers: 28 },
-    { name: "Oct", transfers: 16 },
-]
-
-const recentTransfers = [
-    { id: 1, recipient: "Marie Dupont", amount: 250, currency: "EUR", date: "2024-10-23", status: "Terminé" },
-    { id: 2, recipient: "Paul Martin", amount: 100, currency: "USD", date: "2024-10-22", status: "En cours" },
-    { id: 3, recipient: "Sophie Bernard", amount: 75, currency: "EUR", date: "2024-10-21", status: "Terminé" },
-    { id: 4, recipient: "Jean Leroy", amount: 500, currency: "EUR", date: "2024-10-20", status: "Terminé" },
-    { id: 5, recipient: "Claire Moreau", amount: 180, currency: "GBP", date: "2024-10-19", status: "Échoué" },
-]
 
 </script>
 
@@ -79,6 +59,7 @@ const recentTransfers = [
                         <CardDescription>Année 2025</CardDescription>
                     </CardHeader>
                     <CardContent>
+                        <p class="text-3xl font-bold">{{ props.totalTransfers }}</p>
                     </CardContent>
                 </Card>
                 <Card
@@ -97,20 +78,17 @@ const recentTransfers = [
                     </CardContent>
                 </Card>
             </div>
-            <!-- Grille avec graphique et tableau des transferts -->
             <div class="grid gap-4 md:grid-cols-2">
-                <!-- Graphique des transferts mensuels -->
                 <Card class="rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <CardHeader>
                         <CardTitle>Transferts ce mois</CardTitle>
                         <CardDescription>Nombre de transferts effectués</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <AreaChart :data="transferData" :categories="['transfers']" index="name" class="h-[300px]"/>
+                        <AreaChart :data="props.transfersData" :categories="['transfers']" index="name" class="h-[300px]"/>
                     </CardContent>
                 </Card>
 
-                <!-- Tableau des transferts récents -->
                 <Card class="rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <CardHeader>
                         <CardTitle>Transferts récents</CardTitle>
@@ -119,7 +97,7 @@ const recentTransfers = [
                     <CardContent>
                         <div class="space-y-4">
                             <div
-                                v-for="transfer in recentTransfers"
+                                v-for="transfer in props.recentTransfers"
                                 :key="transfer.id"
                                 class="flex items-center justify-between p-3 rounded-lg border"
                             >

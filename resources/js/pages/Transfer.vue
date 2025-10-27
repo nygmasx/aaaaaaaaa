@@ -183,13 +183,11 @@ const submitTransfer = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="w-full max-w-4xl mx-auto p-6 space-y-8">
-            <!-- Header -->
             <div class="text-center">
                 <h1 class="text-3xl font-bold text-gray-900">Nouveau transfert</h1>
                 <p class="text-gray-600 mt-2">Transférez de l'argent en toute sécurité</p>
             </div>
 
-            <!-- Progress Steps -->
             <div class="w-full">
                 <div class="flex items-center justify-center space-x-8">
                     <div
@@ -219,9 +217,7 @@ const submitTransfer = () => {
 
             <Separator />
 
-            <!-- Step Content -->
             <div class="min-h-96">
-                <!-- Step 1: Amount and Currency -->
                 <div v-if="currentStep === 1" class="space-y-6">
                     <div class="text-center">
                         <h2 class="text-2xl font-semibold text-gray-900">Montant du transfert</h2>
@@ -263,7 +259,6 @@ const submitTransfer = () => {
                             </Select>
                         </div>
 
-                        <!-- Real-time EUR conversion -->
                         <div v-if="form.amount > 0 && form.currency && form.currency !== 'EUR'" class="rounded-lg border border-blue-200 bg-blue-50 p-4">
                             <div class="flex items-center justify-between">
                                 <div class="text-sm text-blue-600">
@@ -282,7 +277,6 @@ const submitTransfer = () => {
                             </div>
                         </div>
 
-                        <!-- Same currency display -->
                         <div v-else-if="form.amount > 0 && form.currency === 'EUR'" class="rounded-lg border border-green-200 bg-green-50 p-4">
                             <div class="text-2xl font-bold text-green-900 flex items-center gap-2 justify-center">
                                 <span>🇪🇺</span>
@@ -292,7 +286,6 @@ const submitTransfer = () => {
                     </div>
                 </div>
 
-                <!-- Step 2: Recipient -->
                 <div v-if="currentStep === 2" class="space-y-6">
                     <div class="text-center">
                         <h2 class="text-2xl font-semibold text-gray-900">Destinataire</h2>
@@ -313,7 +306,6 @@ const submitTransfer = () => {
                             </p>
                         </div>
 
-                        <!-- User Found -->
                         <div v-if="recipientUser" class="rounded-lg border border-green-200 bg-green-50 p-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
@@ -327,14 +319,12 @@ const submitTransfer = () => {
                             </div>
                         </div>
 
-                        <!-- User Not Found -->
                         <div v-else-if="form.recipient_iban && !ibanSearchLoading" class="rounded-lg border border-red-200 bg-red-50 p-4">
                             <p class="text-red-700 text-center">Aucun utilisateur trouvé avec cet IBAN</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Step 3: Confirmation -->
                 <div v-if="currentStep === 3" class="space-y-6">
                     <div class="text-center">
                         <h2 class="text-2xl font-semibold text-gray-900">Confirmation</h2>
@@ -342,7 +332,6 @@ const submitTransfer = () => {
                     </div>
 
                     <div class="max-w-md mx-auto space-y-6">
-                        <!-- Transfer Summary -->
                         <div class="rounded-lg border border-gray-200 bg-gray-50 p-6 space-y-4">
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Montant</span>
@@ -358,7 +347,6 @@ const submitTransfer = () => {
                             </div>
                         </div>
 
-                        <!-- Optional Message -->
                         <div class="space-y-2">
                             <Label for="message" class="text-lg">Message (optionnel)</Label>
                             <Input
@@ -372,7 +360,6 @@ const submitTransfer = () => {
                 </div>
             </div>
 
-            <!-- Navigation Buttons -->
             <div class="flex justify-between pt-6 border-t">
                 <Button
                     v-if="currentStep > 1"

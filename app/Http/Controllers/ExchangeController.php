@@ -193,7 +193,9 @@ class ExchangeController extends Controller
 
             DB::commit();
 
-            return redirect()->route('dashboard')->with('success',
+            $redirectRoute = $sender->role === 'ROLE_ADMIN' ? '/admin/exchanges' : route('dashboard');
+
+            return redirect($redirectRoute)->with('success',
                 'Transfert de ' . number_format($request->amount, 2) . ' ' . $request->currency .
                 ' vers ' . $recipient->name . ' effectué avec succès !'
             );

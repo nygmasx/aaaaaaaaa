@@ -41,12 +41,10 @@ class CurrencyExchangeService
 
     public function convert(float $amount, string $from, string $to): float
     {
-        // Si même devise, pas de conversion nécessaire
         if ($from === $to) {
             return $amount;
         }
 
-        // L'API Fixer gratuite utilise EUR comme base obligatoire
         $rates = $this->getRates('EUR', [$from, $to]);
 
         if (!isset($rates['rates'])) {
@@ -64,7 +62,6 @@ class CurrencyExchangeService
             throw new \Exception("Taux non disponible pour la devise {$to}");
         }
 
-        // Conversion via EUR: amount * (1 / fromRate) * toRate
         $eurAmount = $amount / $fromRate;
         $convertedAmount = $eurAmount * $toRate;
 

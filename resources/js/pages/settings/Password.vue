@@ -15,7 +15,7 @@ import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Password settings',
+        title: 'Paramètres de mot de passe',
         href: edit().url,
     },
 ];
@@ -26,13 +26,13 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Password settings" />
+        <Head title="Paramètres de mot de passe" />
 
         <SettingsLayout>
             <div class="space-y-6">
                 <HeadingSmall
-                    title="Update password"
-                    description="Ensure your account is using a long, random password to stay secure"
+                    title="Mettre à jour le mot de passe"
+                    description="Assurez-vous que votre compte utilise un mot de passe long et aléatoire pour rester sécurisé"
                 />
 
                 <Form
@@ -50,7 +50,7 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                     v-slot="{ errors, processing, recentlySuccessful }"
                 >
                     <div class="grid gap-2">
-                        <Label for="current_password">Current password</Label>
+                        <Label for="current_password">Mot de passe actuel</Label>
                         <Input
                             id="current_password"
                             ref="currentPasswordInput"
@@ -58,13 +58,13 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                             type="password"
                             class="mt-1 block w-full"
                             autocomplete="current-password"
-                            placeholder="Current password"
+                            placeholder="Mot de passe actuel"
                         />
                         <InputError :message="errors.current_password" />
                     </div>
 
                     <div class="grid gap-2">
-                        <Label for="password">New password</Label>
+                        <Label for="password">Nouveau mot de passe</Label>
                         <Input
                             id="password"
                             ref="passwordInput"
@@ -72,14 +72,14 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                             type="password"
                             class="mt-1 block w-full"
                             autocomplete="new-password"
-                            placeholder="New password"
+                            placeholder="Nouveau mot de passe"
                         />
                         <InputError :message="errors.password" />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="password_confirmation"
-                            >Confirm password</Label
+                            >Confirmer le mot de passe</Label
                         >
                         <Input
                             id="password_confirmation"
@@ -87,7 +87,7 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                             type="password"
                             class="mt-1 block w-full"
                             autocomplete="new-password"
-                            placeholder="Confirm password"
+                            placeholder="Confirmer le mot de passe"
                         />
                         <InputError :message="errors.password_confirmation" />
                     </div>
@@ -96,7 +96,7 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                         <Button
                             :disabled="processing"
                             data-test="update-password-button"
-                            >Save password</Button
+                            >Enregistrer le mot de passe</Button
                         >
 
                         <Transition
@@ -109,7 +109,7 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                                 v-show="recentlySuccessful"
                                 class="text-sm text-neutral-600"
                             >
-                                Saved.
+                                Enregistré.
                             </p>
                         </Transition>
                     </div>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import {
@@ -13,28 +12,41 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { Link, usePage } from '@inertiajs/vue3';
+import { BookOpen, Folder, LayoutGrid, Users, ArrowRightLeft } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
-const mainNavItems: NavItem[] = [
+const page = usePage();
+const user = page.props.auth?.user;
+
+const userNavItems: NavItem[] = [
     {
-        title: 'Dashboard',
+        title: 'Tableau de bord',
         href: dashboard(),
         icon: LayoutGrid,
     },
+    {
+        title: 'Échanges',
+        href: '/transfer',
+        icon: ArrowRightLeft,
+    },
 ];
 
-const footerNavItems: NavItem[] = [
+const adminNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
+        title: 'Gestion des échanges',
+        href: '/admin/exchanges',
+        icon: ArrowRightLeft,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: BookOpen,
+        title: 'Transferts',
+        href: '/transfer',
+        icon: ArrowRightLeft,
+    },
+    {
+        title: 'Utilisateurs',
+        href: '/admin/users',
+        icon: Users,
     },
 ];
 </script>
@@ -45,7 +57,7 @@ const footerNavItems: NavItem[] = [
             <SidebarMenu>
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
-                        <Link :href="dashboard()">
+                        <Link :href="user?.role === 'ROLE_ADMIN' ? '/admin/exchanges' : dashboard()">
                             <AppLogo />
                         </Link>
                     </SidebarMenuButton>
@@ -54,11 +66,19 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain
+                v-if="user?.role === 'ROLE_ADMIN'"
+                :items="adminNavItems"
+                title="Administration"
+            />
+            <NavMain
+                v-else
+                :items="userNavItems"
+                title="Navigation"
+            />
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
             <NavUser />
         </SidebarFooter>
     </Sidebar>

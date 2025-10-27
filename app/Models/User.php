@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -24,7 +25,8 @@ class User extends Authenticatable
         'role',
         'password',
         'balance',
-        'iban'
+        'iban',
+        'is_active'
     ];
 
     /**
@@ -50,6 +52,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -115,5 +118,15 @@ class User extends Authenticatable
         $checkDigits = 98 - $remainder;
 
         return str_pad($checkDigits, 2, '0', STR_PAD_LEFT);
+    }
+
+    public function sentExchanges(): HasMany
+    {
+        return $this->hasMany(Exchange::class, 'sender_id');
+    }
+
+    public function receivedExchanges(): HasMany
+    {
+        return $this->hasMany(Exchange::class, 'receiver_id');
     }
 }
